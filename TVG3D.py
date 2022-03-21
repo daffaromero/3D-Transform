@@ -7,7 +7,11 @@ from time import sleep
     Changes include translation, scaling, and shearing matrices, along with rotation about an arbitrary axis. The program no longer simulates an object that rotates indefinitely;
     the object now moves and rotates smoothly when transformed (with translation and rotation, respectively). Shearing and scaling do not feature animations.
     This version is made by:
-    Daffa Muhammad Romero   20/456363/TK/50493
+    Daffa Muhammad Romero   20/456363/TK/50493 - daffaromero on Github (https://github.com/daffaromero)
+    Laili Rofi'ah           20/463604/TK/51596
+    Baihaqi                 20/
+    Farhan                  20/
+    Ruth                    20/
 """
 
 class Point3D:
@@ -21,10 +25,10 @@ class Point3D:
         rad = np.radians(angle)
         cosa = math.cos(rad)
         sina = math.sin(rad)
-        Rx = np.array([[1, 0, 0, 0],
+        Rx = np.array([ [1, 0, 0, 0],
                         [0, cosa, -sina, 0],
                         [0, sina, cosa, 0],
-                        [0, 0, 0, 1]])
+                        [0, 0, 0, 1] ])
         coord = np.array([self.x, self.y, self.z, 1])
         res = Rx @ coord
         return Point3D(res[0], res[1], res[2])
@@ -34,10 +38,10 @@ class Point3D:
         rad = np.radians(angle)
         cosa = math.cos(rad)
         sina = math.sin(rad)
-        Ry = np.array([[cosa, 0, sina, 0],
+        Ry = np.array([ [cosa, 0, sina, 0],
                         [0, 1, 0, 0],
                         [-sina, 0, cosa, 0],
-                        [0, 0, 0, 1]])
+                        [0, 0, 0, 1] ])
         coord = np.array([self.x, self.y, self.z, 1])
         res = Ry @ coord
         return Point3D(res[0], res[1], res[2])
@@ -47,44 +51,41 @@ class Point3D:
         rad = np.radians(angle)
         cosa = math.cos(rad)
         sina = math.sin(rad)
-        Rz = np.array([[cosa, -sina, 0, 0],
+        Rz = np.array([ [cosa, -sina, 0, 0],
                         [sina, cosa, 0, 0],
                         [0, 0, 1, 0],
-                        [0, 0, 0, 1]])
+                        [0, 0, 0, 1] ])
         coord = np.array([self.x, self.y, self.z, 1])
         res = Rz @ coord
         return Point3D(res[0], res[1], res[2])
     
     def rotateArbitrary(self, pt1, pt2, angle):
-        xa = pt2[0] - pt1[0]
-        ya = pt2[1] - pt1[1]
-        za = pt2[2] - pt1[2]
-        za2 = math.sqrt(xa**2 +za**2)
-        ang1 = 0
-        ang2 = 0
-        
-        if za != 0:
-            ang1 = math.atan(xa/ya)
-        else:
-            if xa > 0: 
-                ang1 = 90
+        xVect = pt2[0] - pt1[0]
+        yVect = pt2[1] - pt1[1]
+        zVect = pt2[2] - pt1[2]
+        beta, miu = 0,0
+        if zVect == 0:
+            if xVect > 0: 
+                beta = 90
             else:
-                ang1 = 270
-        
-        if za2 != 0:
-            ang2 = math.atan(ya/za2)
+                beta = 270
         else:
-            if ya > 0:
-                ang2 = 90
+            beta = math.atan(xVect/ zVect) * 180 / math.pi
+        if xVect **2 + zVect**2 == 0:
+            if yVect > 0:
+                miu = 90
             else:
-                ang2 = 270
-        step1 = self.trans(-pt1[0], -pt1[1], -pt1[2])
-        step2 = step1.rotateY(-ang1)
-        step3 = step2.rotateX(ang2)
+                miu = 270
+        else:
+            miu = math.atan (yVect / math.sqrt(xVect **2 + zVect**2)) * 180 / math.pi
+        step1 = self.trans(0 - pt1[0], 0 - pt1[1], 0 - pt1[2])
+        step2 = step1.rotateY(-beta)
+        step3 = step2.rotateX(miu)
         step4 = step3.rotateZ(angle)
-        step5 = step4.rotateX(-ang2)
-        step6 = step5.rotateY(ang1)
-        res = step6.trans(pt1[0], pt1[1], pt1[2])
+        step5 = step4.rotateX(-miu)
+        step6 = step5.rotateY(beta)
+        res = step6.trans(pt1[0] - 0, pt1[1] - 0, pt1[2] - 0)
+
         return res
     
     def trans(self, x, y, z):
@@ -177,6 +178,7 @@ Input a number (0-5): """))
         xo = int(input("X (1st point): "))
         yo = int(input("Y (1st point): "))
         zo = int(input("Z (1st point): "))
+        print("")
         xp = int(input("X (2nd point): "))
         yp = int(input("Y (2nd point): "))
         zp = int(input("Z (2nd point): "))
@@ -198,87 +200,90 @@ Input a number (0-5): """))
 
 def main(optimus, coords, points):
     p = 0
-    faces = [[0,1,2,3],[1,5,6,2],[5,4,7,6],[4,0,3,7],[0,4,5,1],[3,2,6,7]]
     width, height = 1280, 800
-    lines = []
-    operatedPoints = []
-    transformedPoints = []
+    
+    #Connecting lines to form a wireframe model of object.
+    faces = [[0,1,2,3],[1,5,6,2],[5,4,7,6],[4,0,3,7],[0,4,5,1],[3,2,6,7]]
+    
+    #Arrays to hold graphics.py primitives.
+    edges = []
+    vertices = []
+    tr_vertices = []
 
     if optimus == 0:
         for i in range(len(points)):
-            operatedPoints.append(points[i])
+            vertices.append(points[i])
+            
     if optimus == 1:
-        Tx, Ty, Tz = coords[0], coords[1], coords[2]
+        Tx = coords[0]
+        Ty = coords[1]
+        Tz = coords[2]
         for i in range(len(points)):
-            operatedPoints.append(points[i].trans(Tx, Ty, Tz))
+            vertices.append(points[i].trans(Tx, Ty, Tz))
             
     elif optimus == 2:
-        angleX, angleY, angleZ = coords[0], coords[1], coords[2]
+        factorX = coords[0]
+        factorY = coords[1]
+        factorZ = coords[2]
         for i in range(len(points)):
-            operatedPoints.append(points[i].rotateX(angleX).rotateY(angleY).rotateZ(angleZ))
-
+            vertices.append(points[i].scale(factorX, factorY, factorZ))
+            
     elif optimus == 3:
-        Shx, Shy, Shz = coords[0], coords[1], coords[2]
+        angleX = coords[0]
+        angleY = coords[1]
+        angleZ = coords[2]
         for i in range(len(points)):
-            operatedPoints.append(points[i].shear(Shx, Shy, Shz))
+            vertices.append(points[i].rotateX(angleX).rotateY(angleY).rotateZ(angleZ))
 
     elif optimus == 4:
         pt1 = [coords[0][0], coords[0][1], coords[0][2]]
         pt2 = [coords[1][0], coords[1][1], coords[1][2]]
         for i in range(len(points)):
-            operatedPoints.append(points[i].rotateArbitrary(pt1, pt2, coords[2][0]))
+            vertices.append(points[i].rotateArbitrary(pt1, pt2, coords[2][0]))
 
     elif optimus == 5:
-        factorX, factorY, factorZ = coords[0], coords[1], coords[2]
+        Shx = coords[0]
+        Shy = coords[1]
+        Shz = coords[2]
         for i in range(len(points)):
-            operatedPoints.append(points[i].scale(factorX, factorY, factorZ))
-    
-    #tidak dilakukan apa apa
-    
-    #Melakukan proyeksi koordinat yang telah di transformasi pada bidang 2 dimensi
-    for i in range(len(operatedPoints)):
-        transformedPoints.append(operatedPoints[i].project(640, 400, 500, 20))
+            vertices.append(points[i].shear(Shx, Shy, Shz))
 
-    win = GraphWin('Test', width, height)
+    for i in range(len(vertices)):
+        tr_vertices.append(vertices[i].project(640, 400, 500, 20))
+
+    #Creating a graphics.py window
+    win = GraphWin('Object', width, height)
     win.setBackground(color_rgb(255, 255, 255))
 
-    #Menentukan nilai garis pembentuk balok
     for i in faces:
-        lines.append(Line(Point(transformedPoints[i[0]].x, transformedPoints[i[0]].y), Point(transformedPoints[i[1]].x, transformedPoints[i[1]].y)))
-        lines.append(Line(Point(transformedPoints[i[0]].x, transformedPoints[i[0]].y), Point(transformedPoints[i[3]].x, transformedPoints[i[3]].y)))
-        lines.append(Line(Point(transformedPoints[i[1]].x, transformedPoints[i[1]].y), Point(transformedPoints[i[2]].x, transformedPoints[i[2]].y)))
-        lines.append(Line(Point(transformedPoints[i[2]].x, transformedPoints[i[2]].y), Point(transformedPoints[i[3]].x, transformedPoints[i[3]].y)))
-    #Menggambar garis pembentuk balok
-    for i in lines:
+        edges.append(Line(Point(tr_vertices[i[0]].x, tr_vertices[i[0]].y), Point(tr_vertices[i[1]].x, tr_vertices[i[1]].y)))
+        edges.append(Line(Point(tr_vertices[i[0]].x, tr_vertices[i[0]].y), Point(tr_vertices[i[3]].x, tr_vertices[i[3]].y)))
+        edges.append(Line(Point(tr_vertices[i[1]].x, tr_vertices[i[1]].y), Point(tr_vertices[i[2]].x, tr_vertices[i[2]].y)))
+        edges.append(Line(Point(tr_vertices[i[2]].x, tr_vertices[i[2]].y), Point(tr_vertices[i[3]].x, tr_vertices[i[3]].y)))
+
+    for i in edges:
         i.draw(win)
 
-    #Menampilkan titik koordinat di x y z
-    for i in range(len(transformedPoints)):
-        p = Text(Point(transformedPoints[i].x, transformedPoints[i].y), "{:.2f}, {:.2f}, {:.2f}".format(operatedPoints[i].x, operatedPoints[i].y, operatedPoints[i].z))
-        p.setSize(8)
-        p.setTextColor('Red')
-        p.draw(win) 
-
-
-    ask = int(input("Do you want to do another operation?\nInput 1 for yes, another to exit (number only).\nInput: "))
-    if ask==1:
-        op, val = question()
+    repeat = int(input("Transform again?\nType 1 for YES | Type 0 for NO.\nInput: "))
+    if repeat == 1:
+        op, val = frontEnd()
         win.close()
-        main(op,val, operatedPoints)
+        main(op, val, vertices)
+    elif repeat == 0:
+        quit()
     else:
-        sys.exit()  
+        quit()
+        
     win.getMouse()
     win.close()
 
-#Nilai ini bertujuan agar fungsi utama tahu operasi apa yang dilakukan dan besaran nilai transformasinya
-points = [Point3D(2,5,2),
-            Point3D(4,5,2),
-            Point3D(4,3,2),
-            Point3D(2,3,2),
-            Point3D(4,7,6),
-            Point3D(6,7,6),
-            Point3D(6,5,6),
-            Point3D(4,5,6)
-        ]
+points = [Point3D(2,3,2),
+          Point3D(4,3,2),
+          Point3D(4,5,2),
+          Point3D(2,5,2),
+          Point3D(4,5,6),
+          Point3D(6,5,6),
+          Point3D(6,7,6),
+          Point3D(4,7,6)]
 op, val = frontEnd()
 main(op, val, points)
