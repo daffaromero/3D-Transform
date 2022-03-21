@@ -12,6 +12,8 @@ from time import sleep
     Baihaqi                 20/
     Farhan                  20/
     Ruth                    20/
+    
+    Available publicly at https://github.com/daffaromero/3D-Transform
 """
 
 class Point3D:
