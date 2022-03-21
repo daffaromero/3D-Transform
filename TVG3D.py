@@ -13,7 +13,7 @@ from time import sleep
     Farhan                  20/
     Ruth                    20/
     
-    Available publicly at https://github.com/daffaromero/3D-Transform
+    Available publicly at https://github.com/daffaromero/3D-Transform as TVG3D.py
 """
 
 class Point3D:
