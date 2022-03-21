@@ -3,9 +3,9 @@ import numpy as np
 import math
 from time import sleep
 
-""" This program was originally made by James Futhey (james@jamesfuthey.com), also known as kidGodzilla (https://github.com/kidGodzilla) over on Github.
-    Changes include translation, scaling, and shearing matrices, along with rotation about an arbitrary axis. The program no longer simulates an object that rotates indefinitely;
-    the object now moves and rotates smoothly when transformed (with translation and rotation, respectively). Shearing and scaling do not feature animations.
+""" This program was originally made by James Futhey (james@jamesfuthey.com), also known as kidGodzilla (https://github.com/kidGodzilla) on Github.
+    Changes include the addition of translation, scaling, and shearing matrices, along with rotation about an arbitrary axis. The program no longer simulates an object that rotates indefinitely;
+    the object now gets transformed as specified by the user. No animations of any kind are featured.
     This version is made by:
     Daffa Muhammad Romero   20/456363/TK/50493 - daffaromero on Github (https://github.com/daffaromero)
     Laili Rofi'ah           20/463604/TK/51596
