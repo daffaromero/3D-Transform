@@ -159,36 +159,36 @@ Input a number (0-5): """))
         coords = [0]
     
     elif optimus == 1:
-        Tx = int(input("Translate by x amount: "))
+        Tx = int(input("\nTranslate by x amount: "))
         Ty = int(input("Translate by y amount: "))
         Tz = int(input("Translate by z amount: "))
         coords = [Tx, Ty, Tz]
         
     elif optimus == 2:
-        Sx = float(input("Scale factor (X): "))
+        Sx = float(input("\nScale factor (X): "))
         Sy = float(input("Scale factor (Y): "))
         Sz = float(input("Scale factor (X): "))
         coords = [Sx, Sy, Sz]
 
     elif optimus == 3:
-        Rx = float(input("Degrees of rotation about x-axis: "))
+        Rx = float(input("\nDegrees of rotation about x-axis: "))
         Ry = float(input("Degrees of rotation about y-axis: "))
         Rz = float(input("Degrees of rotation about z-axis: "))
         coords = [Rx, Ry, Rz]
         
     elif optimus == 4:
-        xo = int(input("X (1st point): "))
+        xo = int(input("\nX (1st point): "))
         yo = int(input("Y (1st point): "))
         zo = int(input("Z (1st point): "))
         print("")
         xp = int(input("X (2nd point): "))
         yp = int(input("Y (2nd point): "))
         zp = int(input("Z (2nd point): "))
-        angle = int(input("Degrees of rotation: "))
+        angle = int(input("\nDegrees of rotation: "))
         coords = [[int(xo), int(yo), int(zo)], [int(xp), int(yp), int(zp)], [angle,0,0]] 
 
     elif optimus == 5:
-        Shx = float(input("Shear parallel to x-axis: "))
+        Shx = float(input("\nShear parallel to x-axis: "))
         Shy = float(input("Shear parallel to y-axis: "))
         Shz = float(input("Shear parallel to z-axis: "))
         if(Shx == 0 and Shy == 0 and Shz == 0):
