@@ -11,7 +11,7 @@ from time import sleep
     Laili Rofi'ah               20/463604/TK/51596
     Baihaqi Mustafa S A         20/456839/TK/50663
     Farhan Maulana Firmansyah   20/460544/TK/51133
-    Ruth                        20/460565/TK/51154
+    Ruth Perdana Saragih        20/460565/TK/51154
     
     Available publicly at https://github.com/daffaromero/3D-Transform as TVG3D.py
 """
