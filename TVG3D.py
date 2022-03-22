@@ -7,11 +7,11 @@ from time import sleep
     Changes include the addition of translation, scaling, and shearing matrices, along with rotation about an arbitrary axis. The program no longer simulates an object that rotates indefinitely;
     the object now gets transformed as specified by the user. No animations of any kind are featured.
     This version is made by:
-    Daffa Muhammad Romero   20/456363/TK/50493 - daffaromero on Github (https://github.com/daffaromero)
-    Laili Rofi'ah           20/463604/TK/51596
-    Baihaqi Mustafa S A     20/456839/TK/50663
-    Farhan                  20/
-    Ruth                    20/
+    Daffa Muhammad Romero       20/456363/TK/50493 - daffaromero on Github (https://github.com/daffaromero)
+    Laili Rofi'ah               20/463604/TK/51596
+    Baihaqi Mustafa S A         20/456839/TK/50663
+    Farhan Maulana Firmansyah   20/460544/TK/51133
+    Ruth                        20/
     
     Available publicly at https://github.com/daffaromero/3D-Transform as TVG3D.py
 """
