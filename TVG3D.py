@@ -9,7 +9,7 @@ from time import sleep
     This version is made by:
     Daffa Muhammad Romero   20/456363/TK/50493 - daffaromero on Github (https://github.com/daffaromero)
     Laili Rofi'ah           20/463604/TK/51596
-    Baihaqi                 20/
+    Baihaqi Mustafa S A     20/456839/TK/50663
     Farhan                  20/
     Ruth                    20/
     
